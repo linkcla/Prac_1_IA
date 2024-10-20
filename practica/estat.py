@@ -15,7 +15,7 @@ class Estat:
         self.cami = cami
     
     def __hash__(self):
-        return hash((self.__parets, self.__desti, self.__posicio))
+        return hash((self.__desti, self.__posicio))
     
     # Metodo que comprueba si dos estados son iguales
     def __eq__(self, other):
@@ -42,12 +42,12 @@ class Estat:
                 nou_estat = copy.deepcopy(self)
                 nou_estat.pare = (self)
                 #                tipo de movimiento, en que dirección
-                nou_estat.cami.append(accio, direccio)
-                nou_estat.__posicio = Laberint.__obte_pos(nou_estat.__posicio, accio, direccio)
+                nou_estat.cami.append([accio, direccio])
+                nou_estat.__posicio = Laberint.obte_pos(nou_estat.__posicio, accio.value, direccio)
                 
                 if nou_estat._legal():
                     estats_generats.append(nou_estat)
-
+                
         return estats_generats
     
     # Metodo que devuelve un string con la información del estado   

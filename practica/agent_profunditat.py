@@ -28,12 +28,12 @@ class ViatgerProfunditat(joc.Viatger):
             if estat_actual.es_meta():
                 break
             
+            print("Estat actual:", estat_actual)
             for f in estat_actual.generar_fill():
                 self.__per_visitar.append(f)
             
             self.__visitats.add(estat_actual)
         
-
         if estat_actual.es_meta():
             self.__cami_exit = estat_actual.cami
             exit = True

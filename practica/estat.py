@@ -1,4 +1,5 @@
 import copy
+from practica import config
 from practica.joc import Laberint, Accions
 
 class Estat:
@@ -6,7 +7,6 @@ class Estat:
     def __init__(self, parets: set, desti: tuple[int, int], posicio: tuple[int, int], cami = None):
         if cami is None:
             cami = []
-        
         self.__parets = parets
         self.__desti = desti
         self.__posicio = posicio
@@ -18,14 +18,14 @@ class Estat:
         return hash((self.__desti, self.__posicio))
     
     # Metodo que comprueba si dos estados son iguales
-    def __eq__(self, other):
+    def __eq__(self, other):    
         return (self.__parets == other.__parets
                 and self.__desti == other.__desti
                 and self.__posicio == other.__posicio)
     
     # Metodo que comprueba si la posición es legal (no hay pared)
     def _legal(self) -> bool:
-        return not self.__parets.__contains__(self.__posicio)
+        return (not self.__parets.__contains__(self.__posicio)) and (0 <= self.__posicio[0] < config.mida[0]and 0 <= self.__posicio[1] < config.mida[1])
     
     # Metodo que comprueba si la posición es el destino
     def es_meta(self) -> bool:

@@ -25,7 +25,7 @@ class Estat:
     
     # Metodo que comprueba si la posición es legal (no hay pared)
     def _legal(self) -> bool:
-        return (not self.__parets.__contains__(self.__posicio)) and (0 <= self.__posicio[0] < config.mida[0]and 0 <= self.__posicio[1] < config.mida[1])
+        return (not self.__posicio in self.__parets) and (0 <= self.__posicio[0] < config.mida[0]and 0 <= self.__posicio[1] < config.mida[1])
     
     # Metodo que comprueba si la posición es el destino
     def es_meta(self) -> bool:

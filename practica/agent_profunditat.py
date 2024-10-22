@@ -55,6 +55,7 @@ class ViatgerProfunditat(joc.Viatger):
         if self.__cami_exit:
             accio, direccio = self.__cami_exit.pop(-1)
 
-            return tuple[accio, direccio]
+            print("Accio:", accio, "Direccio:", direccio)
+            return accio, direccio
         else:
             return Accions.ESPERAR

@@ -225,7 +225,7 @@ class Laberint(joc.Joc):
         return posicions
 
     @staticmethod
-    def obte_pos(pos_original: tuple[int, int], multiplicador: int, direccio: str):
+    def __obte_pos(pos_original: tuple[int, int], multiplicador: int, direccio: str):
         return (
             Laberint.MOVS[direccio][0] * multiplicador + pos_original[0],
             Laberint.MOVS[direccio][1] * multiplicador + pos_original[1],
@@ -250,7 +250,7 @@ class Laberint(joc.Joc):
         correcte = False
 
         pos_original = agent_actual.posicio
-        pos_updated = self.obte_pos(pos_original, multiplicador, direccio)
+        pos_updated = self.__obte_pos(pos_original, multiplicador, direccio)
 
         if (
             self.__pos_correcte(pos_updated)
@@ -292,7 +292,7 @@ class Laberint(joc.Joc):
                         f"Paràmetre {params} incorrecte per acció POSAR_PARET"
                     )
                 pos_original = agent_actual.posicio
-                pos_updated = self.obte_pos(pos_original, 1, params)
+                pos_updated = self.__obte_pos(pos_original, 1, params)
 
                 if (
                     self.__pos_correcte(pos_updated)

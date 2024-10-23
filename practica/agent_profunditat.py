@@ -17,7 +17,7 @@ class ViatgerProfunditat(joc.Viatger):
         self.__per_visitar = []
         self.__visitats = set()
         exit = False
-
+        estat_actual = None
         self.__per_visitar.append(estat_inicial)
         while self.__per_visitar:
             estat_actual = self.__per_visitar.pop(-1)
@@ -25,13 +25,14 @@ class ViatgerProfunditat(joc.Viatger):
             if estat_actual in self.__visitats:
                 continue
 
+            print("Estat actual:", estat_actual)
             if estat_actual.es_meta():
                 break
             
-            print("Estat actual:", estat_actual)
+
             for f in estat_actual.generar_fill():
                 self.__per_visitar.append(f)
-            
+
             self.__visitats.add(estat_actual)
         
         if estat_actual.es_meta():
@@ -53,7 +54,7 @@ class ViatgerProfunditat(joc.Viatger):
         
         # Si hay un camino de salida
         if self.__cami_exit:
-            accio, direccio = self.__cami_exit.pop(-1)
+            accio, direccio = self.__cami_exit.pop(0)
 
             print("Accio:", accio, "Direccio:", direccio)
             return accio, direccio

@@ -28,7 +28,6 @@ class ViatgerProfunditat(joc.Viatger):
             print("Estat actual:", estat_actual)
             if estat_actual.es_meta():
                 break
-            
 
             for f in estat_actual.generar_fill():
                 self.__per_visitar.append(f)

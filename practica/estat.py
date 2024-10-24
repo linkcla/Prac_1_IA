@@ -41,7 +41,7 @@ class Estat:
                 nou_estat.pare = (self)
                 #                tipo de movimiento, en que dirección
                 nou_estat.cami.append([accio, direccio]) # Añadimos la acción al camino
-                nou_estat.__posicio = self.__obte_pos(nou_estat.__posicio, accio.value, direccio) # Calculamos la nueva posición del agente
+                nou_estat.__posicio = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio) # Calculamos la nueva posición del agente
 
                 if nou_estat._legal():
                     estats_generats.append(nou_estat)
@@ -51,6 +51,12 @@ class Estat:
     # Metodo que devuelve un string con la información del estado   
     def __str__(self):
         return f"Posicio: {self.__posicio}, Desti: {self.__desti}, Parets: {self.__parets}, Cami: {self.cami}"
+
+    def __accio_get_value(self, accio: Accions):
+        if accio == Accions.MOURE:
+            return 1
+        elif accio == Accions.BOTAR:
+            return 2
                     
 
     def __obte_pos(self, pos_original: tuple[int, int], multiplicador: int, direccio: str):

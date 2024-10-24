@@ -28,10 +28,10 @@ class Accions(enum.Enum):
     POSAR_PARET -> Pes 4
 
     """
-    MOURE = 1
-    POSAR_PARET = 4
+    MOURE = 0
+    POSAR_PARET = 1
     BOTAR = 2
-    ESPERAR = 0
+    ESPERAR = 3
 
     def __repr__(self):
         return self.name

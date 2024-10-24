@@ -12,10 +12,10 @@ class Estat:
         self.__posicio = posicio
 
         # cami --> lista(Moure|Botar, direcció)
-        self.cami = cami
+        self.__cami = cami
     
     def __hash__(self):
-        return hash((self.__desti, self.__posicio))
+        return hash(self.__desti, self.__posicio, self.__cami)
     
     # Metodo que comprueba si dos estados son iguales
     def __eq__(self, other):    
@@ -40,7 +40,7 @@ class Estat:
                 nou_estat = copy.deepcopy(self)
                 nou_estat.pare = (self)
                 #                tipo de movimiento, en que dirección
-                nou_estat.cami.append([accio, direccio]) # Añadimos la acción al camino
+                nou_estat.__cami.append([accio, direccio]) # Añadimos la acción al camino
                 nou_estat.__posicio = self.__obte_pos(nou_estat.__posicio, accio.value, direccio) # Calculamos la nueva posición del agente
 
                 if nou_estat._legal():
@@ -50,7 +50,7 @@ class Estat:
     
     # Metodo que devuelve un string con la información del estado   
     def __str__(self):
-        return f"Posicio: {self.__posicio}, Desti: {self.__desti}, Parets: {self.__parets}, Cami: {self.cami}"
+        return f"Posicio: {self.__posicio}, Desti: {self.__desti}, Parets: {self.__parets}, Cami: {self.__cami}"
                     
 
     def __obte_pos(self, pos_original: tuple[int, int], multiplicador: int, direccio: str):

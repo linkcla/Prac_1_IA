@@ -14,7 +14,7 @@ class EstatEstrella:
 
         # cami --> lista(Moure|Botar, direcció)
         self.cami = cami
-        self.coste = coste # Costo acumulado (g)
+        self.coste = coste # Costo acumulado g(n)
 
     def __hash__(self):
         return hash((self.__desti, self.__posicio))
@@ -37,8 +37,8 @@ class EstatEstrella:
 
         for accio in {Accions.MOURE, Accions.BOTAR}:
             for direccio in Laberint.MOVS:
+                ## !!!!!!!!!! POSIBLE OPTIMIZACIÓN !!!!!!!!!!
                 nou_estat = copy.deepcopy(self)
-                nou_estat.pare = (self)
 
                 nou_estat.cami.append([accio, direccio])
                 nou_estat.__posicio = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio)
@@ -49,10 +49,11 @@ class EstatEstrella:
         return estats_generats
 
     def calc_heuristica(self):
-        return abs(self.__posicio[0] - self.__desti[0]) + abs(self.__posicio[1] - self.__desti[1])
+        # Heuristica: distancia Manhattan
+        # posible modificación: sumar 1 por cada pared doble que tenga en una dirección
+        heuristica = abs(self.__posicio[0] - self.__desti[0]) + abs(self.__posicio[1] - self.__desti[1])
+        return heuristica + self.coste
 
-    def calc_f(self):
-        return self.coste + self.calc_heuristica()
 
     def __accio_get_value(self, accio: Accions):
         if accio == Accions.MOURE:

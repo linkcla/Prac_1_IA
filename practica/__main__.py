@@ -1,10 +1,10 @@
-from practica import joc, agent_profunditat, config
+from practica import joc, agent_profunditat, agent_estrella, config
 
 
 def main():
     mida = config.mida
     agents = [
-        agent_profunditat.ViatgerProfunditat("Agent 1", mida_taulell=mida)
+        agent_estrella.ViatgerA("Agent 1", mida_taulell=mida)
     ]
 
     lab = joc.Laberint(agents, mida_taulell=mida)

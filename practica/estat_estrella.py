@@ -64,6 +64,7 @@ class EstatEstrella:
 
     # Metodo que compara dos estados por su heuristica
     def __lt__(self, other):
+        # Devolvemos el estado con menor heuristica
         return self.calc_heuristica() < other.calc_heuristica()
 
     # Metodo que devuelve un string con la información del estado

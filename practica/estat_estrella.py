@@ -52,6 +52,7 @@ class EstatEstrella:
         # Heuristica: distancia Manhattan
         # posible modificación: sumar 1 por cada pared doble que tenga en una dirección
         heuristica = abs(self.__posicio[0] - self.__desti[0]) + abs(self.__posicio[1] - self.__desti[1])
+        print ("Heuristica: ", heuristica, "Coste: ", self.coste)
         return heuristica + self.coste
 
 
@@ -60,6 +61,10 @@ class EstatEstrella:
             return 1
         elif accio == Accions.BOTAR:
             return 2
+
+    # Metodo que compara dos estados por su heuristica
+    def __lt__(self, other):
+        return self.calc_heuristica() < other.calc_heuristica()
 
     # Metodo que devuelve un string con la información del estado
     def __str__(self):

@@ -31,7 +31,6 @@ class Estat:
     
     def generar_fill(self) -> list:
         estats_generats = []
-        
         # Por cada acción posible (MOURE, BOTAR)
         for accio in {Accions.MOURE, Accions.BOTAR}:
             # Por cada dirección posible (N, S, E, O)

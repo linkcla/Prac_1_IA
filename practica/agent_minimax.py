@@ -33,6 +33,9 @@ class ViatgerMinimax(joc.Viatger):
                 self.__visitats[fill] = punt_fill
             puntuacio_fills.append(self.__visitats[fill])
 
+        if not puntuacio_fills:
+            return estat, estat.calc_heuristica()
+
         puntuacio_fills = sorted(puntuacio_fills, key=lambda x: x[1])
         if torn_max:
             return puntuacio_fills[0]
@@ -55,7 +58,7 @@ class ViatgerMinimax(joc.Viatger):
         res = self.cerca(estat_inicial, alpha =- float("inf"), beta = float("inf"))
 
         if isinstance(res, tuple) and res[0].cami is not None and len(res[0].cami) > 0:
-            accio, direccio = res
+            accio, direccio = res[0].cami[0]
 
             print("Accion: ", accio, "Direccion: ", direccio)
             return accio, direccio

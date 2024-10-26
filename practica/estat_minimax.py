@@ -3,9 +3,9 @@ from practica import config
 from practica.joc import Laberint, Accions
 
 
-class EstatEstrella:
+class EstatMinimax:
 
-    def __init__(self, parets: set, desti: tuple[int, int], posicio: tuple[int, int], cami=None, coste = 0):
+    def __init__(self, parets: set, desti: tuple[int, int], posicio: tuple[int, int], cami=None, jugador=True):
         if cami is None:
             cami = []
         self.__parets = parets
@@ -14,14 +14,14 @@ class EstatEstrella:
 
         # cami --> lista(Moure|Botar, direcció)
         self.cami = cami
-        self.coste = coste # Costo acumulado g(n)
+        self.jugador = jugador # True si es el turno del jugador, False si es el turno del enemigo
 
     def __hash__(self):
-        return hash((self.__desti, self.__posicio))
+        return hash((self.__desti, self.__posicio, self.jugador))
 
     # Metodo que comprueba si dos estados son iguales
     def __eq__(self, other):
-        return self.__posicio == other.__posicio
+        return self.__posicio == other.__posicio and self.jugador == other.jugador
 
     # Metodo que comprueba si la posición es legal (no hay pared) y está dentro del tablero
     def _legal(self) -> bool:
@@ -40,20 +40,25 @@ class EstatEstrella:
                 ## !!!!!!!!!! POSIBLE OPTIMIZACIÓN !!!!!!!!!!
                 nou_estat = copy.deepcopy(self)
 
-                nou_estat.cami.append([accio, direccio])
-                nou_estat.__posicio = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio)
-                nou_estat.coste = self.coste + self.__accio_get_value(accio) # coste + accion
+                # Añadimos la acción actual a `cami`
+                nuevo_cami = nou_estat.cami + [(accio, direccio)]
+                nou_estat.cami = nuevo_cami
 
+                # Calculamos la nueva posición y cambiamos el turno
+                nou_estat.__posicio = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio)
+                nou_estat.jugador = not self.jugador
+
+                # Si el nuevo estado es legal, lo añadimos a los estados generados
                 if nou_estat._legal():
                     estats_generats.append(nou_estat)
+
         return estats_generats
 
     def calc_heuristica(self):
-        # Heuristica: distancia Manhattan
-        # posible modificación: sumar 1 por cada pared doble que tenga en una dirección
+        # Heurística basada en la distancia Manhattan
         heuristica = abs(self.__posicio[0] - self.__desti[0]) + abs(self.__posicio[1] - self.__desti[1])
-        print ("Heuristica: ", heuristica, "Coste: ", self.coste)
-        return heuristica + self.coste
+
+        return heuristica
 
     def __accio_get_value(self, accio: Accions):
         if accio == Accions.MOURE:
@@ -61,14 +66,9 @@ class EstatEstrella:
         elif accio == Accions.BOTAR:
             return 2
 
-    # Metodo que compara dos estados por su heuristica
-    def __lt__(self, other):
-        # Devolvemos el estado con menor heuristica
-        return self.calc_heuristica() < other.calc_heuristica()
-
     # Metodo que devuelve un string con la información del estado
     def __str__(self):
-        return f"Posicio: {self.__posicio}, Desti: {self.__desti}, Parets: {self.__parets}, Cami: {self.cami}, Coste: {self.coste}"
+        return f"Posicio: {self.__posicio}, Desti: {self.__desti}, Parets: {self.__parets}, Cami: {self.cami}"
 
     def __obte_pos(self, pos_original: tuple[int, int], multiplicador: int, direccio: str):
         return (

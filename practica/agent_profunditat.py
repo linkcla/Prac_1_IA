@@ -18,6 +18,7 @@ class ViatgerProfunditat(joc.Viatger):
         self.__visitats = set()
         exit = False
         estat_actual = None
+
         self.__per_visitar.append(estat_inicial)
         while self.__per_visitar:
             estat_actual = self.__per_visitar.pop(-1)
@@ -39,7 +40,6 @@ class ViatgerProfunditat(joc.Viatger):
             exit = True
 
         return exit
-
 
     def actua(self, percepcio: dict) -> Accions | tuple[Accions, str]:
         if self.__cami_exit is None:

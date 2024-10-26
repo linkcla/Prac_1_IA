@@ -50,6 +50,7 @@ class ViatgerA(joc.Viatger):
                 # Para seleccionar la posicion del unico agente del diccionario
                 posicio = next(iter(percepcio["AGENTS"].values()))
             )
+
             self.cerca(estat_inicial)
         
         if self.__cami_exit:

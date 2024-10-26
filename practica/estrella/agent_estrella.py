@@ -1,8 +1,7 @@
-import random
 from queue import PriorityQueue
 
 from practica import joc
-from practica.estat_estrella import EstatEstrella
+from practica.estrella.estat_estrella import EstatEstrella
 from practica.joc import Accions
 
 

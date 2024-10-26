@@ -1,5 +1,5 @@
 from practica import joc
-from practica.estat_profunditat import Estat
+from practica.profundidad.estat_profunditat import Estat
 from practica.joc import Accions
 
 

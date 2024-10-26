@@ -1,4 +1,8 @@
-from practica import joc, agent_profunditat, agent_estrella, agent_minimax, config
+from practica import joc, config
+from practica.profundidad import agent_profunditat
+from practica.minimax import agent_minimax
+from practica.estrella import agent_estrella
+
 
 def main_profunditat():
     mida = config.mida

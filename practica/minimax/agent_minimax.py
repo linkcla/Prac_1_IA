@@ -1,5 +1,5 @@
 from practica import joc, config
-from practica.estat_minimax import EstatMinimax
+from practica.minimax.estat_minimax import EstatMinimax
 from practica.joc import Accions
 
 class ViatgerMinimax(joc.Viatger):

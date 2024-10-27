@@ -3,7 +3,7 @@ from practica.minimax.estat_minimax import EstatMinimax
 from practica.joc import Accions
 
 class ViatgerMinimax(joc.Viatger):
-    PODA = True
+    PODA = False
 
     def __init__(self, *args, **kwargs):
         super(ViatgerMinimax, self).__init__(*args, **kwargs)
@@ -13,20 +13,19 @@ class ViatgerMinimax(joc.Viatger):
 
     def cerca(self, estat: EstatMinimax, alpha, beta, torn_max=True, profunditat=config.limite_profundidad):
 
-        if profunditat == 0: return estat, 0
-
         if estat in self.__per_visitar: return estat, estat.calc_heuristica()
 
         self.__per_visitar.add(estat)
 
         if estat.es_meta():
-
             return estat, float("inf") if torn_max else -float("inf")
+
+        if profunditat == 0: return estat, estat.calc_heuristica() if estat.jugador else -estat.calc_heuristica()
 
         puntuacio_fills = []
 
-
-        for fill in estat.generar_fill():
+        aux = estat.generar_fill()
+        for fill in aux:
             if fill not in self.__visitats:
                 punt_fill = self.cerca(fill, alpha, beta, not torn_max, profunditat - 1)
 
@@ -44,15 +43,16 @@ class ViatgerMinimax(joc.Viatger):
             puntuacio_fills.append(self.__visitats[fill])
 
         self.__per_visitar.remove(estat)
+
         if not puntuacio_fills:
             return estat, estat.calc_heuristica()
 
         puntuacio_fills = sorted(puntuacio_fills, key=lambda x: x[1])
         if torn_max:
-            print(f"Mejor movimiento para MAX: {puntuacio_fills[0]}")
+            #print(f"Mejor movimiento para MAX: {puntuacio_fills[0]}")
             return puntuacio_fills[0]
         else:
-            print(f"Mejor movimiento para MIN: {puntuacio_fills[0]}")
+            #print(f"Mejor movimiento para MIN: {puntuacio_fills[0]}")
             return puntuacio_fills[-1]
 
     def pinta(self, display):

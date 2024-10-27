@@ -27,8 +27,8 @@ def main_estrella():
 def main_minimax():
     mida = config.mida
     agents = [
-        agent_minimax.ViatgerMinimax("Agent 1", mida_taulell=mida),
-        agent_minimax.ViatgerMinimax("Agent 2", mida_taulell=mida)]
+        agent_minimax.ViatgerMinimax("MAX", mida_taulell=mida),
+        agent_minimax.ViatgerMinimax("MIN", mida_taulell=mida)]
 
     lab = joc.Laberint(agents, mida_taulell=mida)
     lab.comencar()

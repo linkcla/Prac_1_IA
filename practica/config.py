@@ -1,2 +1,2 @@
 mida = (6,6)
-limite_profundidad = 3
+limite_profundidad = 10

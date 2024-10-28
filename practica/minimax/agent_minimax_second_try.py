@@ -20,10 +20,13 @@ class Viatger(joc.Viatger):
 
     def cerca (self, estat : EstatMinimax2, alpha, beta, torn_max = True, profunditat = config.limite_profundidad):
         if estat.es_meta():
-            return estat, (float('inf') if torn_max else float('-inf'))
+            # Si es el turno de max y ya se ha llegado a la meta quiere decir que el que ha hecho
+            #  el úlimo movimiento ha sido el que ha ganado, entonces antes de la jugada de max el
+            #  que ha movido ha sido min.
+            return estat, (-float('inf') if torn_max else float('-inf'))
 
         if profunditat == config.limite_profundidad:
-            return estat, estat.calc_heuristica() if torn_max else (-1*estat.calc_heuristica())
+            return estat, estat.calc_heuristica() if torn_max else (-1 * estat.calc_heuristica())
 
         puntuacio_fills = []
         fills = estat.generar_fill()

@@ -32,7 +32,7 @@ class Estat:
     def generar_fill(self) -> list:
         estats_generats = []
         # Por cada acción posible (MOURE, BOTAR)
-        for accio in {Accions.MOURE, Accions.BOTAR}:
+        for accio in (Accions.MOURE, Accions.BOTAR, Accions.POSAR_PARET):
             # Por cada dirección posible (N, S, E, O)
             for direccio in Laberint.MOVS:
                 # !!!!!!!!!! POSIBLE OPTIMIZACIÓN !!!!!!!!!!
@@ -40,7 +40,11 @@ class Estat:
                 nou_estat.pare = (self)
                 #                tipo de movimiento, en que dirección
                 nou_estat.cami.append([accio, direccio]) # Añadimos la acción al camino
-                nou_estat.__posicio = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio) # Calculamos la nueva posición del agente
+                pos_aux = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio) # Calculamos la nueva posición del agente
+                if accio == Accions.POSAR_PARET:
+                    nou_estat.__parets.add(pos_aux)
+                else:
+                    nou_estat.__posicio = pos_aux
 
                 if nou_estat._legal():
                     estats_generats.append(nou_estat)
@@ -56,6 +60,8 @@ class Estat:
             return 1
         elif accio == Accions.BOTAR:
             return 2
+        elif accio == Accions.POSAR_PARET:
+            return 1
                     
 
     def __obte_pos(self, pos_original: tuple[int, int], multiplicador: int, direccio: str):

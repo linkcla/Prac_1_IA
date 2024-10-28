@@ -29,21 +29,16 @@ class EstatMinimax2:
     # Metodo que comprueba si la posición es legal (no hay pared) y está dentro del tablero
     def _legal(self) -> bool:
         if not self.__turno:
-            return (not self.__pos_max in self.__parets and \
+            return ((not self.__pos_max in self.__parets) and \
                     0 <= self.__pos_max[0] < config.mida[0] and \
-                    0 <= self.__pos_max[1] < config.mida[1])
-        else:
-            retunr (not self.__pos_min in self.__parets and \
+                    0 <= self.__pos_max[1] < config.mida[1]) and \
+                    ((not self.__pos_min in self.__parets) and \
                     0 <= self.__pos_min[0] < config.mida[0] and \
                     0 <= self.__pos_min[1] < config.mida[1])
 
     # Metodo que comprueba si la posición es el destino
     def es_meta(self) -> bool:
         return  self.__pos_max == self.__desti or self.__pos_min == self.__desti
-        #if self.__turno:
-        #    return self.__pos_max == self.__desti
-        #else:
-        #    return self.__pos_min == self.__desti
 
     def generar_fill(self) -> list:
         estats_generats = []
@@ -56,10 +51,10 @@ class EstatMinimax2:
                 nou_estat.__cami.append([accio, direccio])
                 if turno:
                     nou_estat.__pos_max = self.__obte_pos(nou_estat.__pos_max, self.__accio_get_value(accio), direccio)
-                    nou_estat.__cost_max = nou_estat.__cost_max + self.__accio_get_value(accio)
+                    #nou_estat.__cost_max = nou_estat.__cost_max + self.__accio_get_value(accio)
                 else:
                     nou_estat.__pos_min = self.__obte_pos(nou_estat.__pos_min, self.__accio_get_value(accio), direccio)
-                    nou_estat.__cost_min = nou_estat.__cost_min + self.__accio_get_value(accio)
+                    #nou_estat.__cost_min = nou_estat.__cost_min + self.__accio_get_value(accio)
 
                 nou_estat.__turno = not nou_estat.__turno
 
@@ -68,13 +63,10 @@ class EstatMinimax2:
         return estats_generats
 
     def calc_heuristica(self):
-        # Heuristica: distancia Manhattan
-        # posible modificación: sumar 1 por cada pared doble que tenga en una dirección
-        if not self.__turno:
-            return 0.75*(abs(self.__pos_max[0] - self.__desti[0]) + abs(self.__pos_max[1] - self.__desti[1])) + 0.25*(self.__cost_max)
-        else:
-            return 0.75*(abs(self.__pos_min[0] - self.__desti[0]) + abs(self.__pos_min[1] - self.__desti[1])) + 0.25*(self.__cost_min)
-
+        # Heuristica: diferecia de distancias Manhattan
+        x0, y0 = self.__desti
+        #         ----------- MANHATTAN MIN ---------------------              ----------- MANHATTAN MAX ---------------------
+        return (abs(x0 - self.__pos_min[0]) + abs(y0 - self.__pos_min[1])) - (abs(x0 - self.__pos_max[0]) + abs(y0 - self.__pos_max[1]))
     def __accio_get_value(self, accio: Accions):
         if accio == Accions.MOURE:
             return 1

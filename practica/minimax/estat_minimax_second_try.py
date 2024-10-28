@@ -28,13 +28,12 @@ class EstatMinimax2:
 
     # Metodo que comprueba si la posición es legal (no hay pared) y está dentro del tablero
     def _legal(self) -> bool:
-        if not self.__turno:
-            return ((not self.__pos_max in self.__parets) and \
-                    0 <= self.__pos_max[0] < config.mida[0] and \
-                    0 <= self.__pos_max[1] < config.mida[1]) and \
-                    ((not self.__pos_min in self.__parets) and \
-                    0 <= self.__pos_min[0] < config.mida[0] and \
-                    0 <= self.__pos_min[1] < config.mida[1])
+        return ((not self.__pos_max in self.__parets) and \
+                0 <= self.__pos_max[0] < config.mida[0] and \
+                0 <= self.__pos_max[1] < config.mida[1]) and \
+                ((not self.__pos_min in self.__parets) and \
+                0 <= self.__pos_min[0] < config.mida[0] and \
+                0 <= self.__pos_min[1] < config.mida[1])
 
     # Metodo que comprueba si la posición es el destino
     def es_meta(self) -> bool:
@@ -60,6 +59,7 @@ class EstatMinimax2:
 
                 if nou_estat._legal():
                     estats_generats.append(nou_estat)
+
         return estats_generats
 
     def calc_heuristica(self):

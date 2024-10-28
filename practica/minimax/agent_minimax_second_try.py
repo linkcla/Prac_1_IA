@@ -24,11 +24,12 @@ class ViatgerMinimax2(joc.Viatger):
             # Si es el turno de max y ya se ha llegado a la meta quiere decir que el que ha hecho
             #  el úlimo movimiento ha sido el que ha ganado, entonces antes de la jugada de max el
             #  que ha movido ha sido min.
-            #return estat, (-float('inf') if torn_max else float('inf'))
-            return estat, (1 if not torn_max else -1)
+            return estat, (-float('inf') if torn_max else float('inf'))
+            #return estat, (1 if not torn_max else -1)
 
         if profunditat == 0:
-            return estat, 0
+            return estat, estat.calc_heuristica()
+            #return estat, 0
 
         if estat in self.__per_procesar:
             return estat, estat.calc_heuristica()
@@ -48,9 +49,9 @@ class ViatgerMinimax2(joc.Viatger):
 
                 if config.poda:
                     if torn_max:
-                        max(alpha, punt_fill[1])
+                        alpha = max(alpha, punt_fill[1])
                     else:
-                        min(beta, punt_fill[1])
+                        beta = min(beta, punt_fill[1])
 
                     if alpha >= beta:
                         break
@@ -63,9 +64,9 @@ class ViatgerMinimax2(joc.Viatger):
         if len(puntuacio_fills) == 0: return estat, 0
         # elegir el movimiento dependiendo del jugador
         if torn_max:
-            return puntuacio_fills[0]
-        else:
             return puntuacio_fills[-1]
+        else:
+            return puntuacio_fills[0]
 
     def actua(self, percepcio: dict) -> Accions | tuple[Accions, str]:
         self.__visitats = dict()

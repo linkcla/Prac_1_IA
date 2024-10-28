@@ -35,13 +35,20 @@ class EstatEstrella:
     def generar_fill(self) -> list:
         estats_generats = []
 
-        for accio in (Accions.MOURE, Accions.BOTAR):
+        for accio in (Accions.MOURE, Accions.BOTAR, Accions.POSAR_PARET):
             for direccio in Laberint.MOVS:
                 ## !!!!!!!!!! POSIBLE OPTIMIZACIÓN !!!!!!!!!!
                 nou_estat = copy.deepcopy(self)
 
                 nou_estat.cami.append([accio, direccio])
-                nou_estat.__posicio = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio)
+                pos_aux = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio)
+
+                if accio == Accions.POSAR_PARET:
+                    nou_estat.__parets.add(pos_aux)
+                else:
+                    nou_estat.__posicio = pos_aux
+
+                #nou_estat.__posicio = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio)
                 nou_estat.coste = self.coste + self.__accio_get_value(accio) # coste + accion
 
                 if nou_estat._legal():
@@ -60,6 +67,8 @@ class EstatEstrella:
             return 1
         elif accio == Accions.BOTAR:
             return 2
+        elif accio == Accions.POSAR_PARET:
+            return 4
 
     # Metodo que compara dos estados por su heuristica
     def __lt__(self, other):

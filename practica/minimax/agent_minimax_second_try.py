@@ -14,6 +14,7 @@ class ViatgerMinimax2(joc.Viatger):
         super(ViatgerMinimax2, self).__init__(*args, **kwargs)
         self.__cami = None
         self.__visitats = None
+        self.__per_procesar = None
 
     def pinta(self, display):
         pass
@@ -27,10 +28,12 @@ class ViatgerMinimax2(joc.Viatger):
             return estat, (1 if not torn_max else -1)
 
         if profunditat == 0:
+            return estat, 0
+
+        if estat in self.__per_procesar:
             return estat, estat.calc_heuristica()
 
-        #if estat in self.__visitats:
-        #    return estat, estat.calc_heuristica()
+        self.__per_procesar.add(estat)
 
         puntuacio_fills = []
         fills = estat.generar_fill()
@@ -41,7 +44,6 @@ class ViatgerMinimax2(joc.Viatger):
         # fills = sorted(fills)
         for fill in fills:
             if fill not in self.__visitats:
-                self.__visitats[fill] = fill, 0
                 punt_fill = self.cerca(fill, alpha, beta, not torn_max, (profunditat - 1))
 
                 if config.poda:
@@ -56,8 +58,10 @@ class ViatgerMinimax2(joc.Viatger):
                 self.__visitats[fill] = punt_fill
             puntuacio_fills.append(self.__visitats[fill])
 
+        self.__per_procesar.remove(estat)
         puntuacio_fills = sorted(puntuacio_fills, key=lambda x: x[1])
         if len(puntuacio_fills) == 0: return estat, 0
+        # elegir el movimiento dependiendo del jugador
         if torn_max:
             return puntuacio_fills[0]
         else:
@@ -65,6 +69,7 @@ class ViatgerMinimax2(joc.Viatger):
 
     def actua(self, percepcio: dict) -> Accions | tuple[Accions, str]:
         self.__visitats = dict()
+        self.__per_procesar = set()
         estat_inicial = EstatMinimax2(
             pos_max= percepcio["AGENTS"]["MAX"],
             pos_min = percepcio["AGENTS"]["MIN"],

@@ -41,9 +41,11 @@ class EstatEstrella:
                 nou_estat = copy.deepcopy(self)
 
                 nou_estat.cami.append([accio, direccio])
-                pos_aux = self.__obte_pos(nou_estat.__posicio, self.__accio_get_value(accio), direccio)
+                pos_aux = self.__obte_pos(nou_estat.__posicio,1 if self.__accio_get_value(accio) == 4 else self.__accio_get_value(accio), direccio)
 
                 if accio == Accions.POSAR_PARET:
+                    if pos_aux in self.__parets:
+                        continue
                     nou_estat.__parets.add(pos_aux)
                 else:
                     nou_estat.__posicio = pos_aux

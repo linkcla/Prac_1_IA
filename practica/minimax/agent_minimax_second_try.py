@@ -30,6 +30,10 @@ class Viatger(joc.Viatger):
 
         puntuacio_fills = []
         fills = estat.generar_fill()
+        # Explorar primero los hijos que estén más cerca --> Poner en la parte de la izquierda del arbol los hijos
+        # más proximos a la solución.
+        # TODO: revisar si funciona
+        fills = sorted(fills)
         for fill in fills:
             if fill not in self.__visitats:
                 punt_fill = self.cerca(fill, alpha, beta, not torn_max, (profunditat - 1))

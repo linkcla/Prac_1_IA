@@ -61,7 +61,6 @@ class EstatEstrella:
         # Heuristica: distancia Manhattan
         # posible modificación: sumar 1 por cada pared doble que tenga en una dirección
         heuristica = abs(self.__posicio[0] - self.__desti[0]) + abs(self.__posicio[1] - self.__desti[1])
-        print ("Heuristica: ", heuristica, "Coste: ", self.coste)
         return heuristica + self.coste
 
     def __accio_get_value(self, accio: Accions):

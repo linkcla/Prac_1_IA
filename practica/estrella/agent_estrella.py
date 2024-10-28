@@ -55,7 +55,7 @@ class ViatgerA(joc.Viatger):
         if self.__cami_exit:
             accio, direccio = self.__cami_exit.pop(0)
 
-            print("Accio:", accio, "Direccio:", direccio)
+            #print("Accio:", accio, "Direccio:", direccio)
             return accio, direccio
         else:
             return Accions.ESPERAR

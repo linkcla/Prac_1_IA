@@ -9,9 +9,9 @@ from practica.joc import Accions
 from practica.minimax.estat_minimax_second_try import EstatMinimax2
 
 
-class Viatger(joc.Viatger):
+class ViatgerMinimax2(joc.Viatger):
     def __init__(self, *args, **kwargs):
-        super(Viatger, self).__init__(*args, **kwargs)
+        super(ViatgerMinimax2, self).__init__(*args, **kwargs)
         self.__cami = None
         self.__visitats = None
 
@@ -23,19 +23,25 @@ class Viatger(joc.Viatger):
             # Si es el turno de max y ya se ha llegado a la meta quiere decir que el que ha hecho
             #  el úlimo movimiento ha sido el que ha ganado, entonces antes de la jugada de max el
             #  que ha movido ha sido min.
-            return estat, (-float('inf') if torn_max else float('-inf'))
+            #return estat, (-float('inf') if torn_max else float('inf'))
+            return estat, (1 if not torn_max else -1)
 
-        if profunditat == config.limite_profundidad:
-            return estat, estat.calc_heuristica() if torn_max else (-1 * estat.calc_heuristica())
+        if profunditat == 0:
+            return estat, estat.calc_heuristica()
+
+        #if estat in self.__visitats:
+        #    return estat, estat.calc_heuristica()
 
         puntuacio_fills = []
         fills = estat.generar_fill()
+        if len(fills) == 0: return estat, 0
         # Explorar primero los hijos que estén más cerca --> Poner en la parte de la izquierda del arbol los hijos
         # más proximos a la solución.
-        # TODO: revisar si funciona
-        fills = sorted(fills)
+        # TODO: revisar posible implementación
+        # fills = sorted(fills)
         for fill in fills:
             if fill not in self.__visitats:
+                self.__visitats[fill] = fill, 0
                 punt_fill = self.cerca(fill, alpha, beta, not torn_max, (profunditat - 1))
 
                 if config.poda:
@@ -48,9 +54,10 @@ class Viatger(joc.Viatger):
                         break
 
                 self.__visitats[fill] = punt_fill
-            puntuacio_fills = append(self.__visitats[fill])
+            puntuacio_fills.append(self.__visitats[fill])
 
-        puntuacio_fills = sorted(self.__visitats[1])
+        puntuacio_fills = sorted(puntuacio_fills, key=lambda x: x[1])
+        if len(puntuacio_fills) == 0: return estat, 0
         if torn_max:
             return puntuacio_fills[0]
         else:
@@ -66,7 +73,7 @@ class Viatger(joc.Viatger):
         )
         res = self.cerca(estat_inicial, alpha=-float("inf"), beta=float("inf"))
 
-        if instance(res, tuple) and res[0].get_cami is not None and len(res[0].get_cami) > 0:
+        if isinstance(res, tuple) and res[0].get_cami() is not None and len(res[0].get_cami()) > 0:
             accio, direccio = res[0].get_cami()[0]
             return accio, direccio
         else:

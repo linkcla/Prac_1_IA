@@ -5,7 +5,7 @@ from practica.joc import Laberint, Accions
 
 class EstatMinimax2:
 
-    def __init__(self, pos_max: tuple[int, int], pos_min: tuple[int, int], desti: tuple[int, int],parets: set, turno : boolean, cami=None):
+    def __init__(self, pos_max: tuple[int, int], pos_min: tuple[int, int], desti: tuple[int, int],parets: set, turno=True, cami=None):
         if cami is None:
             cami = []
         self.__pos_max = pos_max
@@ -18,7 +18,7 @@ class EstatMinimax2:
         self.__cost_min = 0
 
     def __hash__(self):
-        return hash((self.__pos_max, self.__pos_min, self.__desti, tuple(self.__parets), self.__cami))
+        return hash((self.__pos_max, self.__pos_min))
 
     # Metodo que comprueba si dos estados son iguales
     def __eq__(self, other):
@@ -43,13 +43,13 @@ class EstatMinimax2:
     def generar_fill(self) -> list:
         estats_generats = []
 
-        for accio in {Accions.MOURE, Accions.BOTAR}:
+        for accio in (Accions.MOURE, Accions.BOTAR):
             for direccio in Laberint.MOVS:
                 ## !!!!!!!!!! POSIBLE OPTIMIZACIÓN !!!!!!!!!!
                 nou_estat = copy.deepcopy(self)
 
                 nou_estat.__cami.append([accio, direccio])
-                if turno:
+                if self.__turno:
                     nou_estat.__pos_max = self.__obte_pos(nou_estat.__pos_max, self.__accio_get_value(accio), direccio)
                     #nou_estat.__cost_max = nou_estat.__cost_max + self.__accio_get_value(accio)
                 else:

@@ -35,7 +35,7 @@ class EstatEstrella:
     def generar_fill(self) -> list:
         estats_generats = []
 
-        for accio in {Accions.MOURE, Accions.BOTAR}:
+        for accio in (Accions.MOURE, Accions.BOTAR):
             for direccio in Laberint.MOVS:
                 ## !!!!!!!!!! POSIBLE OPTIMIZACIÓN !!!!!!!!!!
                 nou_estat = copy.deepcopy(self)

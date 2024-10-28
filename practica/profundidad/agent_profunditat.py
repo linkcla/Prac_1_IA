@@ -26,7 +26,7 @@ class ViatgerProfunditat(joc.Viatger):
             if estat_actual in self.__visitats:
                 continue
 
-            print("Estat actual:", estat_actual)
+            #print("Estat actual:", estat_actual)
             if estat_actual.es_meta():
                 break
 
@@ -55,7 +55,7 @@ class ViatgerProfunditat(joc.Viatger):
         if self.__cami_exit:
             accio, direccio = self.__cami_exit.pop(0)
 
-            print("Accio:", accio, "Direccio:", direccio)
+            #print("Accio:", accio, "Direccio:", direccio)
             return accio, direccio
         else:
             return Accions.ESPERAR
